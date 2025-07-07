@@ -150,7 +150,7 @@ export default function Tab() {
                   <FontAwesome5 name="user-alt" size={18} color={textColor} />
                   <View style={{ marginLeft: 10 }}>
                     <Text style={{ color: textColor, fontWeight: "600" }}>
-                      Name:
+                      {t("Name")}:
                     </Text>
                     <Text style={{ color: textColor, fontSize: 16 }}>
                       {userData?.name || "User"}
@@ -169,7 +169,7 @@ export default function Tab() {
                   <MaterialIcons name="email" size={18} color={emailColor} />
                   <View style={{ marginLeft: 10 }}>
                     <Text style={{ color: textColor, fontWeight: "600" }}>
-                      Email:
+                      {t("Email")}:
                     </Text>
                     <Text style={{ color: emailColor, fontSize: 16 }}>
                       {userData?.email}
@@ -188,7 +188,7 @@ export default function Tab() {
                   <Ionicons name="call-outline" size={18} color={phoneColor} />
                   <View style={{ marginLeft: 10 }}>
                     <Text style={{ color: textColor, fontWeight: "600" }}>
-                      Phone:
+                      {t("Phone")}:
                     </Text>
                     <Text style={{ color: phoneColor, fontSize: 16 }}>
                       {userData?.phone}
@@ -198,9 +198,7 @@ export default function Tab() {
                 {/* Language Switcher */}
                 <View
                   style={{
-                    marginTop: 20,
                     marginHorizontal: 20,
-                    padding: 16,
                     borderRadius: 12,
                     backgroundColor: cardColor,
                   }}
@@ -307,7 +305,7 @@ export default function Tab() {
                             fontWeight: "600",
                           }}
                         >
-                          {isDark ? "Light Mode" : "Dark Mode"}
+                          {isDark ? t("Light Mode") : t("Dark Mode")}
                         </Text>
                       </>
                     )}
@@ -345,7 +343,7 @@ export default function Tab() {
                       marginLeft: 8,
                     }}
                   >
-                    Create Plot
+                    {t("Create Plot")}
                   </Text>
                 </TouchableOpacity>
 
@@ -371,7 +369,7 @@ export default function Tab() {
                       marginLeft: 8,
                     }}
                   >
-                    Show Plots
+                    {t("Show Plots")}
                   </Text>
                 </TouchableOpacity>
               </View>

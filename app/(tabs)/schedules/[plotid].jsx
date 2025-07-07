@@ -6,6 +6,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { addDoc, collection, doc, getDoc, Timestamp } from "firebase/firestore";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Alert,
@@ -24,6 +25,7 @@ import * as Yup from "yup";
 import { auth, db } from "../../../firebase";
 
 export default function PlotDetail() {
+  const { t } = useTranslation();
   const { plotid } = useLocalSearchParams();
   const isDark = useSelector((state) => state.user.isDark);
   const router = useRouter();
@@ -227,7 +229,7 @@ export default function PlotDetail() {
               </Text>
 
               <Text style={{ fontSize: 16, color: textColor }}>
-                Schedule Date:{" "}
+                {t("Schedule_Date")}:{" "}
                 <Text style={{ fontWeight: "600" }}>
                   {scheduleDate.toLocaleDateString("en-IN", {
                     day: "2-digit",
@@ -248,7 +250,7 @@ export default function PlotDetail() {
                 }}
               >
                 <Text style={{ color: "#fff", fontWeight: "600" }}>
-                  Select Schedule Date
+                  {t("Select Schedule Date")}
                 </Text>
               </TouchableOpacity>
 
@@ -273,7 +275,11 @@ export default function PlotDetail() {
                   onValueChange={(val) => setFieldValue("isSpray", val)}
                   color={values.isSpray ? accentColor : undefined}
                 />
-                <Text style={{ marginLeft: 10, color: textColor }}>Spray</Text>
+                <Text
+                  style={{ marginLeft: 10, color: textColor, fontSize: 23 }}
+                >
+                  {t("Spray")}
+                </Text>
               </View>
 
               {values.isSpray && (
@@ -292,7 +298,7 @@ export default function PlotDetail() {
                     }}
                   >
                     <Text style={{ color: "#fff", fontWeight: "600" }}>
-                      Add Fertilizer
+                      {t("Add Fertilizer")}
                     </Text>
                   </TouchableOpacity>
                   {values.fertilizers.map((item, index) => (
@@ -339,7 +345,11 @@ export default function PlotDetail() {
                   onValueChange={(val) => setFieldValue("isDrip", val)}
                   color={values.isDrip ? accentColor : undefined}
                 />
-                <Text style={{ marginLeft: 10, color: textColor }}>Drip</Text>
+                <Text
+                  style={{ marginLeft: 10, color: textColor, fontSize: 23 }}
+                >
+                  {t("Drip")}
+                </Text>
               </View>
 
               {values.isDrip && (
@@ -355,7 +365,7 @@ export default function PlotDetail() {
                     }}
                   >
                     <Text style={{ color: "#fff", fontWeight: "600" }}>
-                      Add Drip Item
+                      {t("Add Fertilizer")}
                     </Text>
                   </TouchableOpacity>
                   {values.dripItems.map((item, index) => (
@@ -412,7 +422,7 @@ export default function PlotDetail() {
                 <Text
                   style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}
                 >
-                  {isSubmitting ? "Saving..." : "Save Schedule"}
+                  {isSubmitting ? t("Saving...") : t("Save Schedule")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -446,12 +456,12 @@ export default function PlotDetail() {
                       marginBottom: 12,
                     }}
                   >
-                    {modalVisible ? "Add Fertilizer" : "Add Drip Item"}
+                    {modalVisible ? t("Add Fertilizer") : t("Add Fertilizer")}
                   </Text>
 
-                  <Text style={{ color: textColor }}>Name</Text>
+                  <Text style={{ color: textColor }}>{t("Name")}</Text>
                   <TextInput
-                    placeholder="Name"
+                    placeholder={t("Name")}
                     placeholderTextColor="#888"
                     style={{
                       backgroundColor: inputBg,
@@ -464,9 +474,9 @@ export default function PlotDetail() {
                     onChangeText={setFertilizerName}
                   />
 
-                  <Text style={{ color: textColor }}>Quantity</Text>
+                  <Text style={{ color: textColor }}>{t("Quantity")}</Text>
                   <TextInput
-                    placeholder="Quantity"
+                    placeholder={t("Quantity")}
                     placeholderTextColor="#888"
                     keyboardType="numeric"
                     style={{
@@ -480,7 +490,7 @@ export default function PlotDetail() {
                     onChangeText={setQuantity}
                   />
 
-                  <Text style={{ color: textColor }}>Unit</Text>
+                  <Text style={{ color: textColor }}>{t("Unit")}</Text>
                   <View
                     style={{
                       backgroundColor: inputBg,
@@ -503,9 +513,11 @@ export default function PlotDetail() {
 
                   {dripModalVisible && (
                     <>
-                      <Text style={{ color: textColor }}>Area (acres)</Text>
+                      <Text style={{ color: textColor }}>
+                        {t("Area (acres)")}
+                      </Text>
                       <TextInput
-                        placeholder="Area"
+                        placeholder={t("Area")}
                         placeholderTextColor="#888"
                         keyboardType="numeric"
                         style={{
@@ -541,7 +553,7 @@ export default function PlotDetail() {
                         borderRadius: 8,
                       }}
                     >
-                      <Text style={{ color: "#fff" }}>Cancel</Text>
+                      <Text style={{ color: "#fff" }}>{t("Cancel")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
@@ -574,7 +586,7 @@ export default function PlotDetail() {
                         borderRadius: 8,
                       }}
                     >
-                      <Text style={{ color: "#fff" }}>Add</Text>
+                      <Text style={{ color: "#fff" }}>{t("Add")}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

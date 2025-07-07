@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Alert,
   Modal,
@@ -28,6 +29,7 @@ import * as Yup from "yup";
 import { auth, db } from "../firebase";
 
 const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
+  const { t } = useTranslation();
   const isDark = useSelector((state) => state.user.isDark);
   const [scheduleDate, setScheduleDate] = useState(
     new Date(schedule.scheduleDate.seconds * 1000)
@@ -369,7 +371,7 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                 {plotData?.plotName || "Loading..."}
               </Text>
               <Text style={{ fontSize: 16, color: textColor }}>
-                Schedule Date:{" "}
+                {t("Schedule_Date")}:{" "}
                 <Text style={{ fontWeight: "600" }}>
                   {scheduleDate.toLocaleDateString("en-IN", {
                     day: "2-digit",
@@ -389,7 +391,7 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                 }}
               >
                 <Text style={{ color: "#fff", fontWeight: "600" }}>
-                  Select Schedule Date
+                  {t("Select Schedule Date")}
                 </Text>
               </TouchableOpacity>
               {showDatePicker && (
@@ -412,7 +414,11 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                   onValueChange={(val) => setFieldValue("isSpray", val)}
                   color={values.isSpray ? accentColor : undefined}
                 />
-                <Text style={{ marginLeft: 10, color: textColor }}>Spray</Text>
+                <Text
+                  style={{ marginLeft: 10, color: textColor, fontSize: 23 }}
+                >
+                  {t("Spray")}
+                </Text>
               </View>
               {values.isSpray && (
                 <>
@@ -430,7 +436,7 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                     }}
                   >
                     <Text style={{ color: "#fff", fontWeight: "600" }}>
-                      Add Fertilizer
+                      {t("Add Fertilizer")}
                     </Text>
                   </TouchableOpacity>
                   {values.fertilizers.map((item, index) => (
@@ -476,7 +482,11 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                   onValueChange={(val) => setFieldValue("isDrip", val)}
                   color={values.isDrip ? accentColor : undefined}
                 />
-                <Text style={{ marginLeft: 10, color: textColor }}>Drip</Text>
+                <Text
+                  style={{ marginLeft: 10, color: textColor, fontSize: 23 }}
+                >
+                  {t("Drip")}
+                </Text>
               </View>
               {values.isDrip && (
                 <>
@@ -491,7 +501,7 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                     }}
                   >
                     <Text style={{ color: "#fff", fontWeight: "600" }}>
-                      Add Drip Item
+                      {t("Add Fertilizer")}
                     </Text>
                   </TouchableOpacity>
                   {values.dripItems.map((item, index) => (
@@ -545,14 +555,20 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                 <Text
                   style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}
                 >
-                  {isSubmitting ? "Saving..." : "Save Schedule"}
+                  {isSubmitting ? (
+                    <Text>{t("Saving...")}</Text>
+                  ) : (
+                    <Text>{t("Save Schedule")}</Text>
+                  )}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={onClose}
                 style={{ marginTop: 15, alignItems: "center" }}
               >
-                <Text style={{ color: accentColor, fontSize: 16 }}>Cancel</Text>
+                <Text style={{ color: accentColor, fontSize: 16 }}>
+                  {t("Cancel")}
+                </Text>
               </TouchableOpacity>
               <View>
                 <TouchableOpacity
@@ -568,7 +584,9 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                   <Text
                     style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}
                   >
-                    {isCompleted ? "Mark as Uncomplete" : "Mark as Complete"}
+                    {isCompleted
+                      ? t("Mark as Uncomplete")
+                      : t("Mark as Complete")}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -577,7 +595,7 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                 style={{ marginTop: 10, alignItems: "center" }}
               >
                 <Text style={{ color: "red", fontSize: 16 }}>
-                  Delete Schedule
+                  {t("Delete Schedule")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -611,12 +629,12 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                       marginBottom: 12,
                     }}
                   >
-                    {modalVisible ? "Add Fertilizer" : "Add Drip Item"}
+                    {modalVisible ? t("Add Fertilizer") : t("Add Fertilizer")}
                   </Text>
 
-                  <Text style={{ color: textColor }}>Name</Text>
+                  <Text style={{ color: textColor }}>{t("Name")}</Text>
                   <TextInput
-                    placeholder="Name"
+                    placeholder={t("Name")}
                     placeholderTextColor="#888"
                     style={{
                       backgroundColor: inputBg,
@@ -629,9 +647,9 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                     onChangeText={setFertilizerName}
                   />
 
-                  <Text style={{ color: textColor }}>Quantity</Text>
+                  <Text style={{ color: textColor }}>{t("Quantity")}</Text>
                   <TextInput
-                    placeholder="Quantity"
+                    placeholder={t("Quantity")}
                     placeholderTextColor="#888"
                     keyboardType="numeric"
                     style={{
@@ -645,7 +663,7 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                     onChangeText={setQuantity}
                   />
 
-                  <Text style={{ color: textColor }}>Unit</Text>
+                  <Text style={{ color: textColor }}>{t("Unit")}</Text>
                   <View
                     style={{
                       backgroundColor: inputBg,
@@ -668,9 +686,11 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
 
                   {dripModalVisible && (
                     <>
-                      <Text style={{ color: textColor }}>Area (acres)</Text>
+                      <Text style={{ color: textColor }}>
+                        {t("Area (acres)")}
+                      </Text>
                       <TextInput
-                        placeholder="Area"
+                        placeholder={t("Area")}
                         placeholderTextColor="#888"
                         keyboardType="numeric"
                         style={{
@@ -706,7 +726,7 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                         borderRadius: 8,
                       }}
                     >
-                      <Text style={{ color: "#fff" }}>Cancel</Text>
+                      <Text style={{ color: "#fff" }}>{t("Cancel")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
@@ -739,7 +759,7 @@ const EditScheduleModal = ({ visible, schedule, onClose, onUpdate }) => {
                         borderRadius: 8,
                       }}
                     >
-                      <Text style={{ color: "#fff" }}>Add</Text>
+                      <Text style={{ color: "#fff" }}>{t("Add")}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

@@ -9,6 +9,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Alert,
@@ -29,6 +30,7 @@ import { useSelector } from "react-redux";
 import { auth, db } from "../../firebase";
 
 export default function Home() {
+  const { t } = useTranslation();
   const [userName, setUserName] = useState("");
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -211,7 +213,7 @@ export default function Home() {
             <TextInput
               value={searchText}
               onChangeText={setSearchText}
-              placeholder="Search item name..."
+              placeholder={t("Search item name...")}
               placeholderTextColor={isDark ? "#aaa" : "#666"}
               style={{
                 flex: 1,
@@ -231,7 +233,7 @@ export default function Home() {
               style={{ color: textColor }}
               className="px-2 font-semibold text-xl"
             >
-              📦 Available Stock
+              📦 {t("Available Stock")}
             </Text>
             <View className="flex-1 h-px bg-gray-400" />
           </View>
@@ -262,7 +264,7 @@ export default function Home() {
                   style={{ color: stockColor }}
                   className="mt-2 text-xl font-semibold"
                 >
-                  Stock:{" "}
+                  {t("Stock")}:{" "}
                   <Text className="text-2xl font-bold underline">
                     {item.remaining}
                   </Text>{" "}
@@ -272,7 +274,7 @@ export default function Home() {
                   style={{ color: "red" }}
                   className="text-lg font-semibold"
                 >
-                  Used: {item.used} {item.unit}
+                  {t("Used")}: {item.used} {item.unit}
                 </Text>
 
                 <View className="flex-row justify-between mt-4 w-full space-x-2">
@@ -281,7 +283,9 @@ export default function Home() {
                     className="bg-red-500 px-4 py-2 rounded flex-row items-center space-x-1"
                   >
                     <Ionicons name="trash" size={18} color="#fff" />
-                    <Text className="text-white font-medium">Delete</Text>
+                    <Text className="text-white font-medium">
+                      {t("Delete")}
+                    </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -293,7 +297,7 @@ export default function Home() {
                       size={18}
                       color="#fff"
                     />
-                    <Text className="text-white font-medium">Add</Text>
+                    <Text className="text-white font-medium">{t("Add")}</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -301,7 +305,7 @@ export default function Home() {
                     className="bg-yellow-600 px-4 py-2 rounded flex-row items-center space-x-1"
                   >
                     <Ionicons name="flash" size={18} color="#fff" />
-                    <Text className="text-white font-medium">Use</Text>
+                    <Text className="text-white font-medium">{t("Use")}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -332,12 +336,12 @@ export default function Home() {
           <View className="flex-1 bg-black bg-opacity-50 justify-center items-center">
             <View className="bg-white w-11/12 rounded-xl p-5">
               <Text className="text-black text-lg font-semibold mb-3 flex-row items-center">
-                Use quantity for "{selectedItem?.name}"
+                {t("Use quantity for")} {selectedItem?.name}
               </Text>
               <TextInput
                 value={useValue}
                 onChangeText={setUseValue}
-                placeholder="Enter value"
+                placeholder={t("Enter value")}
                 keyboardType="numeric"
                 className="border border-gray-300 rounded p-3 mb-4 text-black"
               />
@@ -346,13 +350,13 @@ export default function Home() {
                   onPress={() => setIsUseModalVisible(false)}
                   className="px-4 mr-4 py-2 rounded bg-gray-400"
                 >
-                  <Text className="text-white font-medium">Cancel</Text>
+                  <Text className="text-white font-medium">{t("Cancel")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={handleUseSubmit}
                   className="px-4 py-2 rounded bg-yellow-600"
                 >
-                  <Text className="text-white font-medium">Submit</Text>
+                  <Text className="text-white font-medium">{t("Use")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -364,12 +368,14 @@ export default function Home() {
           <View className="flex-1 bg-black bg-opacity-50 justify-center items-center">
             <View className="bg-white w-11/12 rounded-xl p-5">
               <Text className="text-black text-lg font-semibold mb-3 flex-row items-center">
-                Add quantity to "{selectedItem?.name}"
+                <Text>
+                  {t("Add quantity to")} {selectedItem?.name}
+                </Text>
               </Text>
               <TextInput
                 value={addValue}
                 onChangeText={setAddValue}
-                placeholder="Enter value"
+                placeholder={t("Enter value")}
                 keyboardType="numeric"
                 className="border border-gray-300 rounded p-3 mb-4 text-black"
               />
@@ -378,13 +384,13 @@ export default function Home() {
                   onPress={() => setIsAddModalVisible(false)}
                   className="px-4 mr-4 py-2 rounded bg-gray-400"
                 >
-                  <Text className="text-white font-medium">Cancel</Text>
+                  <Text className="text-white font-medium">{t("Cancel")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={handleAddSubmit}
                   className="px-4 py-2 rounded bg-yellow-600"
                 >
-                  <Text className="text-white font-medium">Add</Text>
+                  <Text className="text-white font-medium">{t("Add")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -397,18 +403,18 @@ export default function Home() {
             <View className="flex-1 bg-black bg-opacity-50 justify-center items-center">
               <View className="bg-white w-11/12 rounded-xl p-5">
                 <Text className="text-black text-lg font-bold mb-3 text-center flex-row items-center justify-center">
-                  Add New Item
+                  {t("Add New Item")}
                 </Text>
                 <TextInput
                   className="bg-white border border-gray-300 rounded p-3 mb-3 text-black"
-                  placeholder="Item Name"
+                  placeholder={t("Name")}
                   placeholderTextColor="#999"
                   value={newName}
                   onChangeText={setNewName}
                 />
                 <TextInput
                   className="bg-white border border-gray-300 rounded p-3 mb-3 text-black"
-                  placeholder="Stock"
+                  placeholder={t("Stock")}
                   placeholderTextColor="#999"
                   value={newRemaining}
                   onChangeText={setNewRemaining}
@@ -427,7 +433,7 @@ export default function Home() {
                   <RNPickerSelect
                     value={newUnit}
                     onValueChange={setNewUnit}
-                    placeholder={{ label: "Select unit...", value: null }}
+                    placeholder={{ label: t("Select unit..."), value: null }}
                     items={[
                       { label: "kg", value: "kg" },
                       { label: "gram", value: "gram" },
@@ -456,7 +462,9 @@ export default function Home() {
                     onPress={() => setIsCreateModalVisible(false)}
                     className="px-4 mr-4 py-2 rounded bg-gray-400"
                   >
-                    <Text className="text-white font-medium">Cancel</Text>
+                    <Text className="text-white font-medium">
+                      {t("Cancel")}
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={async () => {
@@ -498,7 +506,9 @@ export default function Home() {
                     {addingTodo ? (
                       <ActivityIndicator color="#fff" />
                     ) : (
-                      <Text className="text-white font-medium">Save</Text>
+                      <Text className="text-white font-medium">
+                        {t("Save")}
+                      </Text>
                     )}
                   </TouchableOpacity>
                 </View>

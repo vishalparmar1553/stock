@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   ScrollView,
@@ -15,6 +16,7 @@ import { useSelector } from "react-redux";
 import { auth, db } from "../../../firebase";
 
 export default function CreateSchedules() {
+  const { t } = useTranslation();
   const router = useRouter();
   const isDark = useSelector((state) => state.user.isDark);
   const [loading, setLoading] = useState(true);
@@ -77,7 +79,7 @@ export default function CreateSchedules() {
             marginBottom: 20,
           }}
         >
-          Select Plot to Add Schedule
+          {t("Select Plot to Add Schedule")}
         </Text>
 
         {plots.length === 0 ? (
@@ -113,7 +115,8 @@ export default function CreateSchedules() {
                   {plot.plotName}
                 </Text>
                 <Text style={{ color: textColor, fontSize: 14, opacity: 0.7 }}>
-                  Size: {plot.plotSize} | Location: {plot.location}
+                  {t("Size")}: {plot.plotSize} | {t("Location")}:{" "}
+                  {plot.location}
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={24} color={textColor} />

@@ -1,10 +1,12 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Colors } from "../../assets/Colors";
 
 export default function TabLayout() {
   const reduxIsDark = useSelector((state) => state.user.isDark);
+  const { t } = useTranslation();
 
   return (
     <Tabs
@@ -29,7 +31,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: t("Home"),
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="home" color={color} />
           ),
@@ -38,7 +40,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: "Stock",
+          title: t("Stock"),
           tabBarIcon: ({ color }) => (
             <FontAwesome size={24} name="cubes" color={color} />
           ),
@@ -48,7 +50,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="schedules"
         options={{
-          title: "Schedules",
+          title: t("Schedules"),
           tabBarIcon: ({ color }) => (
             <FontAwesome name="calendar" color={color} size={24} />
           ),
@@ -57,7 +59,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="account"
         options={{
-          title: "Account",
+          title: t("Account"),
           tabBarIcon: ({ color }) => (
             <FontAwesome name="money" color={color} size={24} />
           ),
@@ -66,7 +68,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: t("Profile"),
           tabBarIcon: ({ color }) => (
             <FontAwesome name="user-circle-o" color={color} size={24} />
           ),

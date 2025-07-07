@@ -1,6 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   FlatList,
@@ -14,7 +15,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import EditScheduleModal from "../../components/EditScheduleModal";
 import { auth, db } from "../../firebase";
-
 export default function UserSchedules() {
   const isDark = useSelector((state) => state.user.isDark);
   const [schedules, setSchedules] = useState({ all: [], filtered: [] });
@@ -23,6 +23,7 @@ export default function UserSchedules() {
   const [filter, setFilter] = useState("Today");
   const [todos, setTodos] = useState([]);
 
+  const { t } = useTranslation();
   const isFocused = useIsFocused();
   const [selectedSchedule, setSelectedSchedule] = useState(null);
 
@@ -161,7 +162,7 @@ export default function UserSchedules() {
             marginBottom: 10,
           }}
         >
-          👋 Welcome, {userName}
+          👋 {t("welcome")}, {userName}
         </Text>
 
         <FlatList
@@ -191,7 +192,7 @@ export default function UserSchedules() {
                   fontSize: 13,
                 }}
               >
-                {item}
+                {t(item)}
               </Text>
             </TouchableOpacity>
           )}
@@ -202,7 +203,7 @@ export default function UserSchedules() {
             <Text
               style={{ color: textColor, fontSize: 16, textAlign: "center" }}
             >
-              No schedules found for &quot;{filter}&ldquo;
+              {t("No schedules found for")} &quot;{t(filter)}&ldquo;
             </Text>
           ) : (
             // Dynamic stock logic here
@@ -295,6 +296,8 @@ const ScheduleCard = ({
       year: "numeric",
     });
 
+  const { t } = useTranslation();
+
   return (
     <View
       style={{
@@ -333,14 +336,18 @@ const ScheduleCard = ({
           }}
         >
           <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 12 }}>
-            {schedule.completed ? "Completed" : "Pending"}
+            {schedule.completed ? (
+              <Text>{t("Completed")}</Text>
+            ) : (
+              <Text>{t("Pending")}</Text>
+            )}
           </Text>
         </View>
       </View>
 
       {schedule.spray && schedule.sprayItems?.length > 0 && (
         <ItemList
-          title="Spray Items"
+          title={t("Spray Items")}
           items={schedule.sprayItems}
           textColor={textColor}
           accentColor={accentColor}
@@ -349,7 +356,7 @@ const ScheduleCard = ({
       )}
       {schedule.drip && schedule.dripItems?.length > 0 && (
         <ItemList
-          title="Drip Items"
+          title={t("Drip Items")}
           items={schedule.dripItems}
           textColor={textColor}
           accentColor={accentColor}
@@ -363,6 +370,7 @@ const ScheduleCard = ({
 const ItemList = ({ title, items, textColor, accentColor, todos }) => {
   const getStock = (name) =>
     todos.find((t) => t.name.toLowerCase() === name.toLowerCase());
+  const { t } = useTranslation();
 
   return (
     <View style={{ marginTop: 10 }}>
@@ -377,10 +385,14 @@ const ItemList = ({ title, items, textColor, accentColor, todos }) => {
           borderBottomColor: "#888",
         }}
       >
-        <Text style={[styles.tableHeader, { color: textColor }]}>Name</Text>
-        <Text style={[styles.tableHeader, { color: textColor }]}>Required</Text>
         <Text style={[styles.tableHeader, { color: textColor }]}>
-          Available
+          {t("Name")}
+        </Text>
+        <Text style={[styles.tableHeader, { color: textColor }]}>
+          {t("Required")}
+        </Text>
+        <Text style={[styles.tableHeader, { color: textColor }]}>
+          {t("Available")}
         </Text>
       </View>
       {items.map((item, i) => {

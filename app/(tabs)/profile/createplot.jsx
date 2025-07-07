@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { Formik } from "formik";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Platform,
   SafeAreaView,
@@ -35,6 +36,7 @@ const PlotSchema = Yup.object().shape({
 });
 
 export default function CreatePlot() {
+  const { t } = useTranslation();
   const router = useRouter();
   const isDark = useSelector((state) => state.user.isDark);
 
@@ -104,9 +106,10 @@ export default function CreatePlot() {
             fontWeight: "700",
             marginBottom: 20,
             color: textColor,
+            marginTop: 15,
           }}
         >
-          Create New Plot
+          {t("Create New Plot")}
         </Text>
 
         <Formik
@@ -133,7 +136,7 @@ export default function CreatePlot() {
                 value={values.plotName}
                 onChangeText={handleChange("plotName")}
                 onBlur={handleBlur("plotName")}
-                placeholder="Plot Name"
+                placeholder={t("Name")}
                 placeholderTextColor={isDark ? "#aaa" : "#888"}
                 style={{
                   backgroundColor: inputBg,
@@ -154,7 +157,7 @@ export default function CreatePlot() {
                 value={values.plotSize}
                 onChangeText={handleChange("plotSize")}
                 onBlur={handleBlur("plotSize")}
-                placeholder="Plot Size (e.g., 5 acres)"
+                placeholder={t("Area (acres)")}
                 placeholderTextColor={isDark ? "#aaa" : "#888"}
                 keyboardType="decimal-pad"
                 style={{
@@ -176,7 +179,7 @@ export default function CreatePlot() {
                 value={values.location}
                 onChangeText={handleChange("location")}
                 onBlur={handleBlur("location")}
-                placeholder="Location"
+                placeholder={t("Location")}
                 placeholderTextColor={isDark ? "#aaa" : "#888"}
                 style={{
                   backgroundColor: inputBg,
@@ -197,7 +200,7 @@ export default function CreatePlot() {
                 value={values.sprayTankLevel}
                 onChangeText={handleChange("sprayTankLevel")}
                 onBlur={handleBlur("sprayTankLevel")}
-                placeholder="Spray Tank Level (e.g., 20 L)"
+                placeholder={t("Spray Tank Level (e.g., 20 L)")}
                 placeholderTextColor={isDark ? "#aaa" : "#888"}
                 keyboardType="numeric"
                 style={{
@@ -225,7 +228,7 @@ export default function CreatePlot() {
                 }}
               >
                 <Text style={{ color: textColor }}>
-                  {`Session Start: ${startDate.toDateString()}`}
+                  {`${t("Session Start:")} ${startDate.toDateString()}`}
                 </Text>
               </TouchableOpacity>
 
@@ -260,7 +263,7 @@ export default function CreatePlot() {
                     marginLeft: 10,
                   }}
                 >
-                  {loading ? "Saving..." : "Save Plot"}
+                  {loading ? t("Saving...") : t("Save")}
                 </Text>
               </TouchableOpacity>
             </>

@@ -9,6 +9,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Alert,
@@ -26,6 +27,7 @@ import { useSelector } from "react-redux";
 import { auth, db } from "../../../firebase";
 
 export default function AllPlots() {
+  const { t } = useTranslation();
   const router = useRouter();
   const isDark = useSelector((state) => state.user.isDark);
 
@@ -74,8 +76,8 @@ export default function AllPlots() {
   const handleDelete = async (id) => {
     const uid = auth.currentUser?.uid;
     if (!uid) return;
-    Alert.alert("Delete Plot", "Are you sure?", [
-      { text: "Cancel", style: "cancel" },
+    Alert.alert(t("Delete Plot"), t("Are you sure?"), [
+      { text: t("Cancel"), style: "cancel" },
       {
         text: "Delete",
         style: "destructive",
@@ -227,13 +229,13 @@ export default function AllPlots() {
               </View>
 
               <Text style={{ color: textColor, marginTop: 8 }}>
-                📐 Area Size:{" "}
+                📐 {t("Area")}:{" "}
                 <Text style={{ fontWeight: "600" }}>{plot.plotSize}</Text>
               </Text>
 
               {plot.sprayTankLevel !== undefined && (
                 <Text style={{ color: textColor, marginTop: 4 }}>
-                  🚰 Water Tank Level:{" "}
+                  🚰 {t("Water Tank Level")}:{" "}
                   <Text style={{ fontWeight: "600" }}>
                     {plot.sprayTankLevel}
                   </Text>
@@ -241,18 +243,18 @@ export default function AllPlots() {
               )}
 
               <Text style={{ color: textColor, marginTop: 4 }}>
-                📍 Location:{" "}
+                📍 {t("Location")}:{" "}
                 <Text style={{ fontWeight: "600" }}>{plot.location}</Text>
               </Text>
               <Text style={{ color: textColor, marginTop: 4 }}>
-                🕒 Session Start:{" "}
+                🕒 {t("Session Start:")}{" "}
                 <Text style={{ fontWeight: "600" }}>
                   {new Date(plot.sessionStart).toDateString()}
                 </Text>
               </Text>
               {plot.endDate && (
                 <Text style={{ color: "#FF9800", marginTop: 4 }}>
-                  🔚 Session Ended:{" "}
+                  🔚 {t("Session Ended")}:{" "}
                   <Text style={{ fontWeight: "600" }}>
                     {new Date(plot.endDate).toDateString()}
                   </Text>
@@ -298,7 +300,9 @@ export default function AllPlots() {
                       }}
                     >
                       <Feather name="edit" size={16} color="#fff" />
-                      <Text style={{ color: "#fff", marginLeft: 6 }}>Edit</Text>
+                      <Text style={{ color: "#fff", marginLeft: 6 }}>
+                        {t("Edit")}
+                      </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -319,7 +323,9 @@ export default function AllPlots() {
                         size={18}
                         color="#fff"
                       />
-                      <Text style={{ color: "#fff", marginLeft: 6 }}>End</Text>
+                      <Text style={{ color: "#fff", marginLeft: 6 }}>
+                        {t("End")}
+                      </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -337,7 +343,7 @@ export default function AllPlots() {
                     >
                       <Ionicons name="trash-outline" size={18} color="#fff" />
                       <Text style={{ color: "#fff", marginLeft: 6 }}>
-                        Delete
+                        {t("Delete")}
                       </Text>
                     </TouchableOpacity>
                   </>
@@ -366,11 +372,11 @@ export default function AllPlots() {
             }}
           >
             <Text style={{ color: textColor, fontSize: 18, marginBottom: 10 }}>
-              Edit Plot
+              {t("Edit")}
             </Text>
 
             <TextInput
-              placeholder="Plot Name"
+              placeholder={t("Name")}
               value={editData.plotName}
               onChangeText={(text) =>
                 setEditData({ ...editData, plotName: text })
@@ -386,7 +392,7 @@ export default function AllPlots() {
             />
 
             <TextInput
-              placeholder="Area Size"
+              placeholder={t("Area")}
               keyboardType="decimal-pad"
               value={editData.plotSize}
               onChangeText={(text) =>
@@ -403,7 +409,7 @@ export default function AllPlots() {
             />
 
             <TextInput
-              placeholder="Water Tank Level"
+              placeholder={t("Water Tank Level")}
               keyboardType="decimal-pad"
               value={editData.sprayTankLevel}
               onChangeText={(text) =>
@@ -420,7 +426,7 @@ export default function AllPlots() {
             />
 
             <TextInput
-              placeholder="Location"
+              placeholder={t("Location")}
               value={editData.location}
               onChangeText={(text) =>
                 setEditData({ ...editData, location: text })
@@ -445,7 +451,7 @@ export default function AllPlots() {
               }}
             >
               <Text style={{ color: textColor }}>
-                Start Date: {editData.sessionStart.toDateString()}
+                {t("Session Start:")} {editData.sessionStart.toDateString()}
               </Text>
             </TouchableOpacity>
 
@@ -481,7 +487,7 @@ export default function AllPlots() {
                   alignItems: "center",
                 }}
               >
-                <Text style={{ color: "#fff" }}>Cancel</Text>
+                <Text style={{ color: "#fff" }}>{t("Cancel")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleSaveEdit}
@@ -493,7 +499,7 @@ export default function AllPlots() {
                   alignItems: "center",
                 }}
               >
-                <Text style={{ color: "#fff" }}>Save</Text>
+                <Text style={{ color: "#fff" }}>{t("Save")}</Text>
               </TouchableOpacity>
             </View>
           </View>
